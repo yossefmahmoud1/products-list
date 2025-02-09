@@ -1,38 +1,56 @@
-import React, {Component} from 'react';
+import React, { Component } from 'react';
 
-class addItem extends Component {
-    state = {
-        product: '',
-        price: ''
-    }
+class AddItem extends Component {
+  state = {
+    product: '',
+    price: '',
+    quantity: 1
+  }
 
-    handleChange = (e) => {
-        console.log(e.target.id + ": " + e.target.value)
-        this.setState({
-            [e.target.id]: e.target.value
-        })
-    }
+  handleChange = (e) => {
+    this.setState({
+      [e.target.name]: e.target.value
+    });
+  }
 
-    handleSubmit = (e) => {
-        e.preventDefault()
-        this.props.add(this.state)
-        this.setState({
-            product: '',
-            price: ''
-        })
-    }
+  handleSubmit = (e) => {
+    e.preventDefault();
+    this.props.add({ 
+      product: this.state.product, 
+      price: parseFloat(this.state.price), 
+      quantity: parseInt(this.state.quantity) 
+    });
+    this.setState({ product: '', price: '', quantity: 1 });
+  }
 
-    render(){
-        return(
-            <div className="item">
-                <form onSubmit={this.handleSubmit}>
-                    <input type="text" value={this.state.product} placeholder="Enter Product" id="product" onChange={this.handleChange} required/>
-                    <input type="number" value={this.state.price} placeholder="Enter Price" id="price" onChange={this.handleChange} required/>
-                    <input type="submit" value="Add"/>
-                </form>
-            </div>
-        )
-    }
+  render() {
+    return (
+      <form onSubmit={this.handleSubmit}>
+        <input
+          type="text"
+          name="product"
+          placeholder="Product Name"
+          value={this.state.product}
+          onChange={this.handleChange}
+        />
+        <input
+          type="number"
+          name="price"
+          placeholder="Price"
+          value={this.state.price}
+          onChange={this.handleChange}
+        />
+        <input
+          type="number"
+          name="quantity"
+          placeholder="Quantity"
+          value={this.state.quantity}
+          onChange={this.handleChange}
+        />
+        <button type="submit">Add Item</button>
+      </form>
+    );
+  }
 }
 
-export default addItem;
+export default AddItem;
